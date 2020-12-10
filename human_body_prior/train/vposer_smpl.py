@@ -39,6 +39,7 @@ from torch.nn import functional as F
 from torch.utils.data import DataLoader
 
 import torchgeometry as tgm
+import kornia 
 
 from configer import Configer
 
@@ -157,7 +158,7 @@ class VPoser(nn.Module):
         '''
         batch_size = pose_matrot.size(0)
         homogen_matrot = F.pad(pose_matrot.view(-1, 3, 3), [0,1])
-        pose = tgm.rotation_matrix_to_angle_axis(homogen_matrot).view(batch_size, 1, -1, 3).contiguous()
+        pose = kornia.geometry.conversions.rotation_matrix_to_angle_axis(homogen_matrot).view(batch_size, 1, -1, 3).contiguous()
         return pose
 
     @staticmethod
